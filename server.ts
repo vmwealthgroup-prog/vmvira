@@ -4,6 +4,7 @@
  */
 
 import express from "express";
+import fs from "fs";
 import path from "path";
 import dotenv from "dotenv";
 import { GoogleGenAI, Type } from "@google/genai";
@@ -26,7 +27,7 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-const PORT = 3000;
+const PORT = Number(process.env.PORT) || 3000;
 
 // Initialize GoogleGenAI SDK server-side (User-Agent telemetry included)
 const apiKey = process.env.GEMINI_API_KEY;
@@ -710,7 +711,11 @@ function generateLocalFallbackReport(ticker: string, context: any) {
 
 // Vite integration & Static Assets server
 async function startServer() {
-  if (process.env.NODE_ENV !== "production") {
+  const distPath = path.join(process.cwd(), "dist");
+  const isBundledServer = process.argv[1]?.includes("server.cjs") || process.argv[1]?.includes("dist");
+  const isProduction = process.env.NODE_ENV === "production" || (isBundledServer && fs.existsSync(path.join(distPath, "index.html")));
+
+  if (!isProduction) {
     // Import Vite on demand for dev mode
     const { createServer: createViteServer } = await import("vite");
     const vite = await createViteServer({
@@ -721,7 +726,6 @@ async function startServer() {
     console.log("Vite dev middleware mounted successfully.");
   } else {
     // Serve production static builds from /dist
-    const distPath = path.join(process.cwd(), "dist");
     app.use(express.static(distPath));
     app.get("*", (req, res) => {
       res.sendFile(path.join(distPath, "index.html"));
