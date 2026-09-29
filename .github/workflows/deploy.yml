@@ -1,1 +1,42 @@
 
+name: Build and Deploy to Hostinger
+
+on:
+  push:
+    branches:
+      - main  # Triggers deployment when you push to the main branch from AI Studio
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout the source code from GitHub
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # 2. Setup Node.js environment
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # 3. Install dependencies and build project
+      - name: Install and Build
+        run: |
+          npm ci
+          npm run build
+
+      # 4. Deploy build folder to Hostinger via FTP
+      - name: Deploy to Hostinger FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          # Path to your built files (change 'dist' to 'build' if using Create React App)
+          local-dir: ./dist/
+          # Hostinger default web folder
+          server-dir: ./public_html/
+          state-name: .ftp-deploy-sync-state.json
