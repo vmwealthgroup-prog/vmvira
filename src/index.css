@@ -1,0 +1,177 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* Dynamic CSS Variable mapping for theme swapping */
+  --color-terminal-bg: var(--terminal-bg);
+  --color-terminal-card: var(--terminal-card);
+  --color-terminal-card-hover: var(--terminal-card-hover);
+  --color-terminal-accent: var(--terminal-accent);
+  --color-terminal-success: var(--terminal-success);
+  --color-terminal-danger: var(--terminal-danger);
+  --color-terminal-warning: var(--terminal-warning);
+  --color-terminal-border: var(--terminal-border);
+  --color-terminal-muted: var(--terminal-muted);
+}
+
+:root {
+  /* ==========================================
+   * LIGHT THEME (White Institutional Slate)
+   * ========================================== */
+  --terminal-bg: #f8fafc; /* Beautiful soft slate-50 background */
+  --terminal-card: #ffffff; /* Crisp white card background */
+  --terminal-card-hover: #f1f5f9; /* Slate-100 for hover elements */
+  --terminal-accent: #2563eb; /* High-contrast Royal Blue */
+  --terminal-success: #10b981; /* Emerald Green */
+  --terminal-danger: #ef4444; /* Saturated Red */
+  --terminal-warning: #d97706; /* Solid Amber */
+  --terminal-border: #e2e8f0; /* Clear Slate-200 dividers */
+  --terminal-muted: #64748b; /* Slate-500 secondary text */
+}
+
+html.dark {
+  /* ==========================================
+   * DARK THEME (Sleek Terminal Midnight)
+   * ========================================== */
+  --terminal-bg: #0b0f19; /* Deep institutional dark background */
+  --terminal-card: #111827; /* Dark slate-900 card background */
+  --terminal-card-hover: #1f2937; /* Slate-800 card hover */
+  --terminal-accent: #3b82f6; /* High-contrast Neon Blue */
+  --terminal-success: #10b981; /* Emerald Green */
+  --terminal-danger: #ef4444; /* Bright Red */
+  --terminal-warning: #f59e0b; /* Bright Amber */
+  --terminal-border: #1f2937; /* Dark slate-800 dividers */
+  --terminal-muted: #9ca3af; /* Gray-400 secondary text */
+}
+
+/* Premium dynamic scrollbar aesthetics */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--terminal-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--terminal-border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--terminal-muted);
+}
+
+body {
+  background-color: var(--terminal-bg);
+  color: var(--terminal-text-bright, #0f172a);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(37, 99, 235, 0.03) 0%, transparent 60%),
+    radial-gradient(circle at 0% 100%, rgba(16, 185, 129, 0.01) 0%, transparent 40%);
+  background-attachment: fixed;
+}
+
+html.dark body {
+  color: #f3f4f6 !important;
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.05) 0%, transparent 60%),
+    radial-gradient(circle at 0% 100%, rgba(16, 185, 129, 0.02) 0%, transparent 40%);
+}
+
+/* Premium micro-shadows and interactive border highlights */
+.terminal-card-glow {
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 1px 2px -1px rgba(15, 23, 42, 0.04), 0 0 0 1px var(--terminal-border);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: var(--terminal-card);
+}
+.terminal-card-glow:hover {
+  box-shadow: 0 8px 18px -4px rgba(15, 23, 42, 0.06), 0 0 0 1px var(--terminal-accent);
+  border-color: rgba(37, 99, 235, 0.3);
+  transform: translateY(-1px);
+}
+
+html.dark .terminal-card-glow {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 0 0 1px var(--terminal-border);
+}
+html.dark .terminal-card-glow:hover {
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--terminal-accent);
+}
+
+.terminal-active-glow {
+  box-shadow: 0 0 15px -3px rgba(37, 99, 235, 0.12);
+}
+
+/* Blinking cursor simulation */
+.cursor-blink {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  from, to { border-color: transparent }
+  50% { border-color: var(--terminal-accent) }
+}
+
+/* Custom transitions for tabs and layouts */
+.transition-layout {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 
+ * --------------------------------------------------------------------------
+ * INTELLIGENT DEEP TEXT COLOR MAPPING OVERRIDES (Only active in Light Theme)
+ * --------------------------------------------------------------------------
+ */
+
+html.light .text-white:not(
+  .bg-terminal-success *, .bg-terminal-danger *, .bg-terminal-accent *, 
+  .bg-terminal-success, .bg-terminal-danger, .bg-terminal-accent,
+  button.bg-terminal-success, button.bg-terminal-danger, button.bg-terminal-accent,
+  [class*="bg-terminal-success"], [class*="bg-terminal-danger"], [class*="bg-terminal-accent"],
+  [class*="bg-emerald-"], [class*="bg-red-"], [class*="bg-blue-"], [class*="bg-slate-900"],
+  .text-white-keep, .text-white-keep *
+) {
+  color: #0f172a !important;
+}
+
+/* Prevent menu item hover white-text from conflicting with light bg */
+html.light .hover\:text-white:hover {
+  color: #0f172a !important;
+}
+
+/* Map custom dark-mode grays to responsive, clean light-mode alternatives */
+html.light .text-\[\#eee\] { color: #0f172a !important; }
+html.light .text-\[\#e5e5e5\] { color: #1e293b !important; }
+html.light .text-\[\#ccc\] { color: #334155 !important; }
+html.light .text-\[\#a0a0a0\] { color: #475569 !important; }
+html.light .text-\[\#888\] { color: #64748b !important; }
+html.light .text-\[\#444\] { color: #cbd5e1 !important; }
+html.light .text-zinc-400 { color: #475569 !important; }
+html.light .text-slate-400 { color: #475569 !important; }
+html.light .text-gray-400 { color: #475569 !important; }
+html.light .text-gray-300 { color: #334155 !important; }
+html.light .text-zinc-300 { color: #334155 !important; }
+html.light .text-neutral-400 { color: #475569 !important; }
+
+/* Input elements text/placeholder correction */
+html.light input, html.light select, html.light textarea {
+  color: #0f172a !important;
+}
+html.light input::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* Soft transparency override for clean cards/rows hover states */
+html.light .hover\:bg-terminal-card-hover\/20:hover {
+  background-color: rgba(241, 245, 249, 0.8) !important;
+}
+html.light .bg-terminal-bg\/50 {
+  background-color: rgba(248, 250, 252, 0.5) !important;
+}
+html.light .bg-terminal-bg\/80 {
+  background-color: rgba(248, 250, 252, 0.8) !important;
+}

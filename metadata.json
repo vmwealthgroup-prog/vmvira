@@ -1,0 +1,6 @@
+{
+  "name": "VM Algo AI Institutional Research Terminal",
+  "description": "An enterprise-grade institutional research platform for Indian equities (NSE/BSE) featuring real-time market dashboard, stock research, options analytics, multivariable screener, FII/DII tracking, and BloombergGPT-style AI reasoning powered by Gemini with search grounding.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
